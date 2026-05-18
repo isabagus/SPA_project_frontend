@@ -52,7 +52,18 @@ export default function AuthPage() {
     } catch (err: any) {
 
       if (err.response && err.response.data) {
-        setError(err.response.data.message || 'Login failed. Please check your credentials.');
+        const rawMessage = err.response.data.message || '';
+        
+        // Cek jika status 500 atau pesan mengandung kata kunci sensitif seputar database/koneksi
+        const isSensitive = 
+          err.response.status === 500 || 
+          /SQLSTATE|mysql|database|connection|query|refused|driver|pdo/i.test(rawMessage);
+
+        if (isSensitive) {
+          setError('Terjadi kendala teknis pada server. Silakan hubungi administrator.');
+        } else {
+          setError(rawMessage || 'Login failed. Please check your credentials.');
+        }
       } else {
         setError('Connection failed. Is the backend server running?');
       }
