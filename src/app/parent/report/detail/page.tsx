@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import api from "@/lib/axios";
 
-export default function ReportDetailPage() {
+function ReportDetailContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const reportId = searchParams.get('report_id');
@@ -152,5 +152,13 @@ export default function ReportDetailPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function ReportDetailPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500 dark:text-gray-400">Loading report details...</div>}>
+      <ReportDetailContent />
+    </Suspense>
   );
 }
