@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import api from '@/lib/axios';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -23,7 +23,7 @@ function scoreColor(val: string | number): string {
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function TeacherReportPage() {
+function TeacherReportContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
@@ -275,5 +275,13 @@ export default function TeacherReportPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function TeacherReportPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-500">Loading page...</div>}>
+      <TeacherReportContent />
+    </Suspense>
   );
 }
