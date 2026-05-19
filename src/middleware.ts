@@ -1,51 +1,46 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-  export function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const role = request.cookies.get('role')?.value;
   const { pathname } = request.nextUrl;
 
   const isLoginPage = pathname === '/auth';
-
-  // 1. Jika BELUM Login (role tidak ada di cookie)
+  
+  // 1. User is NOT authenticated (No role cookie)
   if (!role) {
-    // JANGAN tendang jika memang sudah di halaman login, agar tidak infinite loop
     if (isLoginPage) {
       return NextResponse.next();
     }
-    // Selain itu, baru tendang ke /auth
-    return NextResponse.redirect(new URL('/auth', request.url));
+    // Redirect all protected role-based paths to /auth
+    const protectedPaths = ['/teacher', '/parent', '/mentor', '/admin'];
+    if (protectedPaths.some(p => pathname.startsWith(p))) {
+      return NextResponse.redirect(new URL('/auth', request.url));
+    }
   }
 
-  // 2. Jika SUDAH Login (role ada)
+  // 2. User is authenticated (Role cookie exists)
   if (role) {
-    // Jika mencoba akses /auth lagi padahal sudah login, arahkan ke dashboard masing-masing
+    // If trying to access /auth while logged in, go to dashboard
     if (isLoginPage) {
       return NextResponse.redirect(new URL(`/${role}`, request.url));
     }
 
-    // Proteksi akses silang folder role lain
-    if (pathname.startsWith('/teacher') && role !== 'teacher') {
+    // Role-based authorization: Prevent accessing other roles' folders
+    const roles = ['teacher', 'parent', 'mentor', 'admin'];
+    const currentPathRole = roles.find(r => pathname.startsWith(`/${r}`));
+    
+    if (currentPathRole && currentPathRole !== role) {
       return NextResponse.redirect(new URL(`/${role}`, request.url));
-    }
-    if (pathname.startsWith('/parent') && role !== 'parent') {
-      return NextResponse.redirect(new URL(`/${role}`, request.url));
-    }
-    if (pathname.startsWith('/mentor') && role !== 'mentor') {
-        return NextResponse.redirect(new URL(`/${role}`, request.url));
     }
   }
 
   return NextResponse.next();
 }
 
-// Tentukan rute mana saja yang dipantau middleware
+// Optimized matcher to exclude public files, api, and internal next assets
 export const config = {
   matcher: [
-    '/admin/:path*', 
-    '/teacher/:path*', 
-    '/parent/:path*', 
-    '/mentor/:path*', 
-    '/auth'
+    '/((?!api|_next/static|_next/image|favicon.ico|images|svg).*)',
   ],
-}
+};

@@ -7,6 +7,15 @@ import api from '@/lib/axios';
 import Link from 'next/link';
 
 export default function TeacherDashboard() {
+  // Fetch User Profile for Academic Year
+  const { data: userData } = useQuery({
+    queryKey: ['user-profile'],
+    queryFn: async () => {
+      const response = await api.get('/auth/check');
+      return response.data.user;
+    }
+  });
+
   // Fetch Subjects for Stats and List
   const { data: subjectsResponse, isLoading } = useQuery({
     queryKey: ['teacher-subjects'],
@@ -17,6 +26,7 @@ export default function TeacherDashboard() {
   });
 
   const subjects = subjectsResponse || [];
+  const subjectsWithRubrics = subjects.filter((sub: any) => sub.rubrics && sub.rubrics.length > 0).length;
   
   // Calculate stats based on fetched data
   const stats = [
@@ -33,7 +43,7 @@ export default function TeacherDashboard() {
     },
     { 
       label: "Status Rubrik", 
-      value: isLoading ? "..." : "Selesai", 
+      value: isLoading ? "..." : `${subjectsWithRubrics}/${subjects.length} Dibuat`, 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -44,7 +54,7 @@ export default function TeacherDashboard() {
     },
     { 
       label: "Tahun Ajaran", 
-      value: "2026/2027", 
+      value: userData?.academic_year || "...", 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
