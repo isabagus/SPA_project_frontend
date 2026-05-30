@@ -112,13 +112,13 @@ function MentorReportContent() {
       });
     },
     onSuccess: (data, variables) => {
-      setStatusMessage({ id: variables.criteriaId, type: 'success', text: 'Tersimpan!' });
+      setStatusMessage({ id: variables.criteriaId, type: 'success', text: 'Saved!' });
       queryClient.invalidateQueries({ queryKey: ['mentor-student-overview', selectedStudent?.student_id] });
       setSavingId(null);
       setTimeout(() => setStatusMessage(null), 3000);
     },
     onError: (error, variables) => {
-      setStatusMessage({ id: variables.criteriaId, type: 'error', text: 'Gagal Simpan' });
+      setStatusMessage({ id: variables.criteriaId, type: 'error', text: 'Save Failed' });
       setSavingId(null);
       setTimeout(() => setStatusMessage(null), 3000);
     }
@@ -271,10 +271,10 @@ function MentorReportContent() {
             )}
             <div>
               <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">
-                {view === 'students' ? 'Pusat Laporan' : view === 'overview' ? 'Ringkasan Nilai' : 'Edit Deskripsi'}
+                {view === 'students' ? 'Report Center' : view === 'overview' ? 'Grade Summary' : 'Edit Comments'}
               </h1>
               <p className="text-gray-500 dark:text-gray-400 text-sm font-medium italic">
-                {view === 'students' ? 'Monitoring Akademik Seluruh Siswa' : selectedStudent?.name_student}
+                {view === 'students' ? 'Academic Monitoring - All Students' : selectedStudent?.name_student}
               </p>
             </div>
           </div>
@@ -286,7 +286,7 @@ function MentorReportContent() {
                   <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                   <input 
                     type="text" 
-                    placeholder="Cari Siswa..." 
+                    placeholder="Search Student..." 
                     className="w-full px-5 py-3 pl-12 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl text-sm focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all dark:text-white"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -308,7 +308,7 @@ function MentorReportContent() {
                   <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                   <input 
                     type="text" 
-                    placeholder="Cari Mapel..." 
+                    placeholder="Search Subject..." 
                     className="w-full px-5 py-3 pl-12 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl text-sm focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all dark:text-white"
                     value={searchTermSubject}
                     onChange={(e) => setSearchTermSubject(e.target.value)}
@@ -366,7 +366,7 @@ function MentorReportContent() {
                   className="w-full bg-gray-900 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
                 >
                   <Eye className="w-4 h-4" />
-                  Detail Raport
+                  Report Details
                 </button>
               </div>
             ))}
@@ -380,10 +380,10 @@ function MentorReportContent() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-700">
-                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest">Mata Pelajaran</th>
-                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest">Guru Pengampu</th>
-                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest text-center">Rata-rata Nilai</th>
-                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest text-center">Aksi</th>
+                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest">Subject</th>
+                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest">Teacher</th>
+                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest text-center">Average Score</th>
+                    <th className="px-8 py-6 text-xs uppercase font-black text-gray-400 tracking-widest text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
@@ -437,13 +437,13 @@ function MentorReportContent() {
                             onClick={() => handleViewDetail(report)}
                             className="bg-gray-900 dark:bg-gray-700 text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all"
                           >
-                            Edit Deskripsi
+                            Edit Comments
                           </button>
                         </td>
                       </tr>
                     ))
                   ) : (
-                    <tr><td colSpan={4} className="p-20 text-center font-bold text-gray-400 italic tracking-widest uppercase text-sm">Tidak ada data untuk {activeTerm}</td></tr>
+                    <tr><td colSpan={4} className="p-20 text-center font-bold text-gray-400 italic tracking-widest uppercase text-sm">No data for {activeTerm}</td></tr>
                   )}
                 </tbody>
               </table>
@@ -501,7 +501,7 @@ function MentorReportContent() {
                                             {idx + 1}
                                           </div>
                                           <h4 className="text-sm font-bold text-gray-900 dark:text-gray-200 uppercase tracking-tight">
-                                            {detail.criteria?.criteria_name || 'Kriteria'}
+                                            {detail.criteria?.criteria_name || 'Criteria'}
                                           </h4>
                                         </div>
                                         <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-700">
@@ -511,13 +511,13 @@ function MentorReportContent() {
                                      </div>
                                      
                                      <div className="space-y-3">
-                                       <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Deskripsi Penilaian</label>
+                                       <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">Assessment Comment</label>
                                        <textarea 
                                          className="w-full p-4 text-sm bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 font-medium leading-relaxed outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all dark:text-white resize-none"
                                          rows={2}
                                          value={localDescriptions[detail.criteria_id] || ""}
                                          onChange={(e) => setLocalDescriptions(prev => ({ ...prev, [detail.criteria_id]: e.target.value }))}
-                                         placeholder="Tuliskan deskripsi penilaian di sini..."
+                                         placeholder="Write the assessment comment here..."
                                        />
                                      </div>
 
@@ -542,12 +542,12 @@ function MentorReportContent() {
                                           {savingId === detail.criteria_id ? (
                                             <>
                                               <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                              Simpan...
+                                              Saving...
                                             </>
                                           ) : (
                                             <>
                                               <Save className="w-3.5 h-3.5" />
-                                              Simpan Deskripsi
+                                              Save Comment
                                             </>
                                           )}
                                         </button>
@@ -560,7 +560,7 @@ function MentorReportContent() {
                       </div>
                     ))
                   ) : (
-                    <div className="py-20 text-center font-bold text-gray-400 italic">Tidak ada rubrik detail untuk mata pelajaran ini.</div>
+                    <div className="py-20 text-center font-bold text-gray-400 italic">No detailed rubrics available for this subject.</div>
                   )}
                </div>
             </div>
@@ -573,8 +573,8 @@ function MentorReportContent() {
              <div className="bg-gray-50 dark:bg-gray-900 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Star className="w-10 h-10 text-gray-300" />
              </div>
-             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Tidak Ada Siswa Ditemukan</h2>
-             <p className="text-gray-400 max-w-xs mx-auto">Silakan pilih kelas lain atau ubah kata kunci pencarian Anda.</p>
+             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Students Found</h2>
+             <p className="text-gray-400 max-w-xs mx-auto">Please select another class or modify your search keyword.</p>
           </div>
         )}
       </div>
@@ -584,7 +584,7 @@ function MentorReportContent() {
 
 export default function MentorReportCenter() {
   return (
-    <Suspense fallback={<div className="p-20 text-center font-black animate-pulse">MEMUAT PUSAT LAPORAN...</div>}>
+    <Suspense fallback={<div className="p-20 text-center font-black animate-pulse">LOADING REPORT CENTER...</div>}>
       <MentorReportContent />
     </Suspense>
   );

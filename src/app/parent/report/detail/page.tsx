@@ -37,12 +37,12 @@ function ReportDetailContent() {
       link.remove();
     } catch (error) {
       console.error('Download failed:', error);
-      alert('Gagal mendownload PDF. Silakan coba lagi.');
+      alert('Failed to download PDF. Please try again.');
     }
   };
 
-  if (isLoading) return <div className="p-10 text-center text-gray-500">Memuat rincian nilai...</div>;
-  if (!report) return <div className="p-10 text-center text-red-500">Data raport tidak ditemukan.</div>;
+  if (isLoading) return <div className="p-10 text-center text-gray-500">Loading grade details...</div>;
+  if (!report) return <div className="p-10 text-center text-red-500">Report card data not found.</div>;
 
   return (
     <div className="space-y-6 p-4 md:p-6 max-w-5xl mx-auto">
@@ -54,7 +54,7 @@ function ReportDetailContent() {
           onClick={() => router.back()} 
           className="hover:text-brand-600 transition-colors"
         >
-          Laporan Nilai
+          Grade Report
         </button>
         <span>/</span>
         <span className="font-bold text-gray-900 dark:text-white">{report.subject?.category_subject}</span>
@@ -68,7 +68,7 @@ function ReportDetailContent() {
               {report.subject?.category_subject}
             </h1>
             <p className="text-gray-500 dark:text-gray-400 mt-1">
-              Siswa: <span className="font-bold text-gray-900 dark:text-white">{report.student?.name_student}</span>
+              Student: <span className="font-bold text-gray-900 dark:text-white">{report.student?.name_student}</span>
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -84,7 +84,7 @@ function ReportDetailContent() {
                Download PDF
              </button>
              <div className="bg-brand-50 dark:bg-brand-900/20 px-6 py-3 rounded-2xl border border-brand-100 dark:border-brand-800 text-center">
-               <p className="text-[10px] font-bold text-brand-600 uppercase tracking-widest mb-1">Rata-rata Mapel</p>
+               <p className="text-[10px] font-bold text-brand-600 uppercase tracking-widest mb-1">Subject Average</p>
                <p className="text-3xl font-black text-brand-600">{parseFloat(report.average_value).toFixed(2)}</p>
              </div>
           </div>
@@ -94,15 +94,15 @@ function ReportDetailContent() {
       {/* ── Rincian Nilai ─────────────────────────────────────── */}
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-lg overflow-hidden transition-colors">
         <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/50">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Rincian Kriteria Penilaian</h2>
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white">Assessment Criteria Details</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50 dark:bg-gray-900/50 text-gray-500">
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider w-1/3">Kriteria & Indikator</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-center">Nilai (1.00 - 3.00)</th>
-                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider">Evaluasi Guru</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider w-1/3">Criteria & Indicator</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider text-center">Score (1.00 - 3.00)</th>
+                <th className="px-6 py-4 text-[10px] font-black uppercase tracking-wider">Teacher Evaluation</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -125,7 +125,7 @@ function ReportDetailContent() {
                   </td>
                   <td className="px-6 py-5">
                     <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic">
-                      "{detail.description_subject || 'Tidak ada deskripsi tambahan.'}"
+                      "{detail.description_subject || 'No additional comments.'}"
                     </p>
                   </td>
                 </tr>
@@ -145,10 +145,10 @@ function ReportDetailContent() {
         </div>
         <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
            <span className="w-2 h-8 bg-brand-500 rounded-full"></span>
-           Catatan Mentor
+           Mentor Notes
         </h3>
         <p className="text-gray-300 italic leading-relaxed text-lg">
-          "{report.mentor_note || 'Belum ada catatan mentor untuk mata pelajaran ini.'}"
+          "{report.mentor_note || 'No mentor comments for this subject yet.'}"
         </p>
       </div>
     </div>

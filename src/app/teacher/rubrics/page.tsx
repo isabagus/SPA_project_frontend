@@ -141,13 +141,13 @@ export default function MasterRubricPage() {
       {/* Header & Filter */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
         <div className="space-y-1">
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Perancangan Penilaian</h1>
-          <p className="text-gray-500 dark:text-gray-400 font-medium">Susun standar penilaian untuk setiap mata pelajaran.</p>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Assessment Setup</h1>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">Configure assessment standards for each subject.</p>
         </div>
         
         <div className="flex flex-wrap gap-3 w-full md:w-auto">
           <div className="flex flex-col gap-1 min-w-[200px]">
-            <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Mata Pelajaran</label>
+            <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Subject</label>
             <select className="w-full text-xs font-bold border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500 transition-all" value={selectedSubjectKey} onChange={e => setSelectedSubjectKey(e.target.value)}>
               {subjectOptions.map(([key, info]: any) => (
                 <option key={key} value={key}>{info.name} ({info.level})</option>
@@ -189,7 +189,7 @@ export default function MasterRubricPage() {
                     <button onClick={() => openEditCategory(rubric)} className="p-2 text-gray-400 hover:text-indigo-600 transition-colors">✏️</button>
                     <button 
                         disabled={deleteCategory.isPending}
-                        onClick={() => { if(confirm('Hapus kategori ini?')) deleteCategory.mutate(rubric.rubric_id); }} 
+                        onClick={() => { if(confirm('Are you sure you want to delete this category?')) deleteCategory.mutate(rubric.rubric_id); }} 
                         className="p-2 text-gray-400 hover:text-rose-600 transition-colors disabled:opacity-30"
                     >
                         {deleteCategory.isPending ? '...' : '🗑️'}
@@ -205,10 +205,10 @@ export default function MasterRubricPage() {
                         <button onClick={() => openEditCriteria(crit)} className="text-xs font-bold text-gray-400 hover:text-indigo-600 transition-colors">Edit</button>
                         <button 
                             disabled={deleteCriteria.isPending}
-                            onClick={() => { if(confirm('Hapus indikator ini?')) deleteCriteria.mutate(crit.criteria_id); }} 
+                            onClick={() => { if(confirm('Are you sure you want to delete this indicator?')) deleteCriteria.mutate(crit.criteria_id); }} 
                             className="text-xs font-bold text-gray-400 hover:text-rose-600 transition-colors disabled:opacity-30"
                         >
-                            {deleteCriteria.isPending ? 'Deleting...' : 'Hapus'}
+                            {deleteCriteria.isPending ? 'Deleting...' : 'Delete'}
                         </button>
                       </div>
                     </div>
@@ -218,7 +218,7 @@ export default function MasterRubricPage() {
                     onClick={() => openAddCriteria(rubric.rubric_id)}
                     className="w-full py-4 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl text-xs font-black text-gray-400 hover:border-indigo-400 hover:text-indigo-600 transition-all flex items-center justify-center gap-2"
                   >
-                    {addCriteria.isPending ? 'LOADING...' : '＋ TAMBAH SUB-INDIKATOR'}
+                    {addCriteria.isPending ? 'LOADING...' : '＋ ADD SUB-INDICATOR'}
                   </button>
                 </div>
               </div>
@@ -233,8 +233,8 @@ export default function MasterRubricPage() {
                  <span className="text-2xl font-black">{addCategory.isPending ? '...' : '＋'}</span>
               </div>
               <div className="space-y-1">
-                <p className="font-black text-gray-800 dark:text-white uppercase tracking-widest text-sm">Tambah Kategori Rubrik</p>
-                <p className="text-xs text-gray-400 font-medium italic">Klik untuk merancang kategori baru.</p>
+                <p className="font-black text-gray-800 dark:text-white uppercase tracking-widest text-sm">Add Rubric Category</p>
+                <p className="text-xs text-gray-400 font-medium italic">Click to design a new category.</p>
               </div>
             </button>
           </>
@@ -246,16 +246,16 @@ export default function MasterRubricPage() {
         <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-md p-8 shadow-2xl animate-in fade-in zoom-in duration-300 border border-gray-100 dark:border-gray-700">
             <h2 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight mb-6">
-              {isCategoryModalOpen ? (editingCategory ? 'Edit Kategori' : 'Tambah Kategori') : (editingCriteria ? 'Edit Indikator' : 'Tambah Indikator')}
+              {isCategoryModalOpen ? (editingCategory ? 'Edit Category' : 'Add Category') : (editingCriteria ? 'Edit Indicator' : 'Add Indicator')}
             </h2>
             
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Nama {isCategoryModalOpen ? 'Kategori' : 'Sub-Indikator'}</label>
+                <label className="text-[10px] font-black uppercase text-gray-400 ml-1">{isCategoryModalOpen ? 'Category Name' : 'Sub-Indicator Name'}</label>
                 <input 
                   type="text"
                   className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800 dark:text-white transition-all"
-                  placeholder="Masukkan nama..."
+                  placeholder="Enter name..."
                   value={isCategoryModalOpen ? catName : critName}
                   onChange={e => isCategoryModalOpen ? setCatName(e.target.value) : setCritName(e.target.value)}
                 />
@@ -267,14 +267,14 @@ export default function MasterRubricPage() {
                   onClick={() => { setCategoryModalOpen(false); setCriteriaModalOpen(false); }}
                   className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-gray-200 transition-all disabled:opacity-50"
                 >
-                  Batal
+                  Cancel
                 </button>
                 <button 
                   disabled={addCategory.isPending || updateCategory.isPending || addCriteria.isPending || updateCriteria.isPending}
                   onClick={isCategoryModalOpen ? handleCatSubmit : handleCritSubmit}
                   className="flex-1 py-3 bg-indigo-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none transition-all active:scale-95 disabled:opacity-50"
                 >
-                  { (addCategory.isPending || updateCategory.isPending || addCriteria.isPending || updateCriteria.isPending) ? 'MENYIMPAN...' : 'SIMPAN' }
+                  { (addCategory.isPending || updateCategory.isPending || addCriteria.isPending || updateCriteria.isPending) ? 'SAVING...' : 'SAVE' }
                 </button>
               </div>
             </div>

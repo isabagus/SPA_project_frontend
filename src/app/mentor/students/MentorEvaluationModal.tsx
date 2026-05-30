@@ -66,7 +66,7 @@ export default function MentorEvaluationModal({ studentId, levelClass, onClose }
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mentor-students'] });
       onClose();
-      alert("Evaluasi & Nilai berhasil disimpan!");
+      alert("Evaluation & grades successfully saved!");
     }
   });
 
@@ -88,7 +88,7 @@ export default function MentorEvaluationModal({ studentId, levelClass, onClose }
         {/* Header Section */}
         <div className="p-8 bg-emerald-900 text-white flex justify-between items-center shrink-0">
           <div>
-            <p className="text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-1">Evaluasi Mentor {formData?.religion_fallback && "& Keagamaan (Fallback)"}</p>
+            <p className="text-emerald-400 text-[10px] font-black uppercase tracking-widest mb-1">Mentor Evaluation {formData?.religion_fallback && "& Religious Studies (Fallback)"}</p>
             <h3 className="text-2xl font-black">{formData?.student?.name_student}</h3>
           </div>
           <button 
@@ -104,10 +104,10 @@ export default function MentorEvaluationModal({ studentId, levelClass, onClose }
           
           {/* Section 1: Affective Domain Note */}
           <section>
-            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Catatan Evaluasi / Deskripsi Bimbingan</label>
+            <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Evaluation Comments / Mentoring Notes</label>
             <textarea 
               className="w-full h-48 p-6 bg-gray-50 dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-700 rounded-3xl text-sm font-medium focus:border-emerald-500 outline-none transition-all dark:text-white resize-none shadow-inner"
-              placeholder="Tuliskan perkembangan sikap, perilaku, dan pencapaian non-akademik siswa di sini..."
+              placeholder="Write the student's attitude, behavior, and non-academic progress here..."
               value={note}
               onChange={(e) => setNote(e.target.value)}
             />
@@ -119,8 +119,8 @@ export default function MentorEvaluationModal({ studentId, levelClass, onClose }
               <div className="flex items-center gap-3 mb-6">
                 <span className="p-2 bg-amber-100 text-amber-600 rounded-lg text-lg">⚖️</span>
                 <div>
-                  <h4 className="font-black text-gray-800 dark:text-white uppercase text-xs tracking-tight">Penilaian Keagamaan (Fallback)</h4>
-                  <p className="text-[10px] text-gray-400 font-bold italic">Anda mengisi ini karena tidak ada guru khusus untuk agama {formData?.student?.religion_name}</p>
+                  <h4 className="font-black text-gray-800 dark:text-white uppercase text-xs tracking-tight">Religious Studies Assessment (Fallback)</h4>
+                  <p className="text-[10px] text-gray-400 font-bold italic">You are filling this because there is no dedicated teacher for {formData?.student?.religion_name}</p>
                 </div>
               </div>
 
@@ -160,14 +160,14 @@ export default function MentorEvaluationModal({ studentId, levelClass, onClose }
               onClick={onClose}
               className="flex-1 px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest text-gray-500 hover:bg-gray-100 transition-colors"
             >
-              Batal
+              Cancel
             </button>
             <button 
               disabled={mutation.isPending}
               onClick={handleSave}
               className="flex-[2] bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-emerald-200 dark:shadow-none active:scale-95 transition-all"
             >
-              {mutation.isPending ? "MEMPROSES..." : "SIMPAN SELURUH EVALUASI"}
+              {mutation.isPending ? "PROCESSING..." : "SAVE ALL EVALUATIONS"}
             </button>
           </div>
         </div>

@@ -46,7 +46,7 @@ export default function ParentDashboard() {
 
   const stats = [
     { 
-      label: "Rata-rata Nilai", 
+      label: "Average Score", 
       value: loadingReports ? "..." : averageScore, 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,7 +57,7 @@ export default function ParentDashboard() {
       bg: "bg-brand-50"
     },
     { 
-      label: "Kelas Saat Ini", 
+      label: "Current Class", 
       value: selectedChild?.level_class || "...", 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,8 +68,8 @@ export default function ParentDashboard() {
       bg: "bg-blue-50"
     },
     { 
-      label: "Total Mata Pelajaran", 
-      value: loadingReports ? "..." : `${reportList.length} Mapel`, 
+      label: "Total Subjects", 
+      value: loadingReports ? "..." : `${reportList.length} Subjects`, 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -91,7 +91,7 @@ export default function ParentDashboard() {
         {/* Child Selector */}
         {children && children.length > 1 && (
           <div className="bg-white dark:bg-gray-800 p-2 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex items-center gap-3">
-             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-2">Anak:</span>
+             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-2">Child:</span>
              <div className="flex gap-1">
                 {children.map((child: any) => (
                   <button
@@ -131,25 +131,25 @@ export default function ParentDashboard() {
         {/* Left Column: Grade Summary */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white">Ringkasan Nilai {selectedChild?.name_student}</h2>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-white">Grade Summary for {selectedChild?.name_student}</h2>
             <Link 
                href={selectedChildId ? `/parent/report?student_id=${selectedChildId}` : "#"} 
                className="text-sm font-bold text-brand-600 hover:underline"
             >
-               Lihat Raport Lengkap
+               View Full Report Card
             </Link>
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
             {loadingReports ? (
-              <div className="p-12 text-center text-gray-400 italic">Memuat data nilai...</div>
+              <div className="p-12 text-center text-gray-400 italic">Loading grades...</div>
             ) : reportList.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-gray-50 dark:bg-gray-900/50">
-                      <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Mata Pelajaran</th>
-                      <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Nilai Rata-rata</th>
+                      <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Subject</th>
+                      <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Average Score</th>
                       <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Status</th>
                     </tr>
                   </thead>
@@ -167,7 +167,7 @@ export default function ParentDashboard() {
                         </td>
                         <td className="px-6 py-4 text-center">
                            <span className="px-2 py-1 bg-success-50 dark:bg-success-900/20 text-success-700 dark:text-success-400 text-[10px] font-black uppercase tracking-tight rounded-full">
-                             Selesai
+                             Completed
                            </span>
                         </td>
                       </tr>
@@ -176,14 +176,14 @@ export default function ParentDashboard() {
                 </table>
               </div>
             ) : (
-              <div className="p-12 text-center text-gray-400 italic">Belum ada data nilai untuk periode ini.</div>
+              <div className="p-12 text-center text-gray-400 italic">No grades recorded for this period.</div>
             )}
           </div>
         </div>
 
         {/* Right Column: Mentor Notes */}
         <div className="flex flex-col gap-6">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Catatan Perkembangan</h2>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Progress Notes</h2>
           
           <div className="bg-brand-600 rounded-3xl p-6 text-white shadow-lg shadow-brand-500/20 relative overflow-hidden">
              {/* Decorative pattern */}
@@ -200,24 +200,24 @@ export default function ParentDashboard() {
                 </p>
               ) : (
                 <p className="text-sm leading-relaxed font-medium italic opacity-70">
-                  Belum ada catatan mentor yang dibagikan untuk saat ini.
+                  No mentor comments shared at this time.
                 </p>
               )}
             </div>
           </div>
 
           <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
-            <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-4">Aksi Cepat</h4>
+            <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-4">Quick Actions</h4>
             <div className="flex flex-col gap-3">
                <Link 
                   href={selectedChildId ? `/parent/report?student_id=${selectedChildId}` : "#"} 
                   className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 font-bold text-xs hover:bg-brand-500 hover:text-white transition-all"
                >
-                  Lihat Semua Nilai
+                  View All Grades
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
                </Link>
                <button className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 font-bold text-xs hover:bg-indigo-500 hover:text-white transition-all">
-                  Unduh PDF Raport
+                  Download Report Card PDF
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                </button>
             </div>

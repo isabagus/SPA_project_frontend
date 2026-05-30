@@ -31,7 +31,7 @@ export default function TeacherDashboard() {
   // Calculate stats based on fetched data
   const stats = [
     { 
-      label: "Mata Pelajaran", 
+      label: "Subjects", 
       value: isLoading ? "..." : subjects.length.toString(), 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -42,8 +42,8 @@ export default function TeacherDashboard() {
       bg: "bg-brand-50"
     },
     { 
-      label: "Status Rubrik", 
-      value: isLoading ? "..." : `${subjectsWithRubrics}/${subjects.length} Dibuat`, 
+      label: "Rubric Status", 
+      value: isLoading ? "..." : `${subjectsWithRubrics}/${subjects.length} Created`, 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -53,7 +53,7 @@ export default function TeacherDashboard() {
       bg: "bg-success-50"
     },
     { 
-      label: "Tahun Ajaran", 
+      label: "Academic Year", 
       value: userData?.academic_year || "...", 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,14 +75,14 @@ export default function TeacherDashboard() {
         
         {/* Quick Actions Card */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm transition-all hover:shadow-md">
-          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Aksi Cepat</h3>
+          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Quick Actions</h3>
           <div className="flex flex-col gap-2">
             <Link href="/teacher/rubrics" className="flex items-center justify-between p-3 rounded-xl bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 font-bold text-sm hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">
-              Atur Master Rubrik
+              Setup Master Rubrics
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
             </Link>
             <Link href="/teacher/students" className="flex items-center justify-between p-3 rounded-xl bg-success-50 dark:bg-success-900/20 text-success-700 dark:text-success-400 font-bold text-sm hover:bg-success-100 dark:hover:bg-success-900/40 transition-colors">
-              Input Nilai Siswa
+              Input Student Grades
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
             </Link>
           </div>
@@ -109,8 +109,8 @@ export default function TeacherDashboard() {
         {/* Left Column: Subjects List */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white">Mata Pelajaran Saya</h2>
-            <Link href="/teacher/students" className="text-sm font-bold text-brand-600 hover:underline">Lihat Semua</Link>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-white">My Subjects</h2>
+            <Link href="/teacher/students" className="text-sm font-bold text-brand-600 hover:underline">View All</Link>
           </div>
 
           {isLoading ? (
@@ -136,50 +136,50 @@ export default function TeacherDashboard() {
                     href={`/teacher/students?subject_id=${sub.subject_id}`}
                     className="w-full inline-flex items-center justify-center py-2 px-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-brand-500 hover:text-white text-gray-700 dark:text-gray-300 font-bold text-xs rounded-xl transition-all"
                   >
-                    Buka Penilaian
+                    Open Assessment
                   </Link>
                 </div>
               ))}
             </div>
           ) : (
             <div className="bg-gray-50 dark:bg-gray-800/50 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-3xl p-12 text-center">
-              <p className="text-gray-400 font-medium">Belum ada mata pelajaran yang ditugaskan.</p>
+              <p className="text-gray-400 font-medium">No subjects have been assigned yet.</p>
             </div>
           )}
         </div>
 
         {/* Right Column: Deadlines & Info */}
         <div className="flex flex-col gap-6">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Pemberitahuan</h2>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Notifications</h2>
           
           <div className="bg-brand-600 rounded-3xl p-6 text-white shadow-lg shadow-brand-500/20 relative overflow-hidden">
              {/* Decorative pattern */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
             
-            <h4 className="font-bold mb-2">Batas Pengisian Nilai</h4>
+            <h4 className="font-bold mb-2">Grading Deadline</h4>
             <p className="text-xs text-brand-100 leading-relaxed mb-4">
-              Pastikan seluruh nilai dan deskripsi siswa telah selesai diinput sebelum tanggal pembagian raport.
+              Please ensure all student grades and comments are fully entered before the report card distribution date.
             </p>
             <div className="flex items-center gap-2 font-bold text-sm bg-white/20 p-3 rounded-xl backdrop-blur-sm">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              5 Hari Lagi
+              5 Days Left
             </div>
           </div>
 
           <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
-            <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-4">Panduan Pengisian</h4>
+            <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-4">Grading Guide</h4>
             <ul className="space-y-4">
               <li className="flex gap-3">
                 <div className="w-6 h-6 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-bold shrink-0">1</div>
-                <p className="text-xs text-gray-500">Tentukan <strong>Master Rubrik</strong> terlebih dahulu untuk setiap kategori penilaian.</p>
+                <p className="text-xs text-gray-500">Define the <strong>Master Rubric</strong> first for each assessment category.</p>
               </li>
               <li className="flex gap-3">
                 <div className="w-6 h-6 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-bold shrink-0">2</div>
-                <p className="text-xs text-gray-500">Pilih Mata Pelajaran lalu masukkan nilai sesuai kriteria yang telah dibuat.</p>
+                <p className="text-xs text-gray-500">Select a subject, then input grades according to the defined criteria.</p>
               </li>
               <li className="flex gap-3">
                 <div className="w-6 h-6 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-bold shrink-0">3</div>
-                <p className="text-xs text-gray-500">Klik <strong>Simpan</strong> untuk menyimpan draf atau <strong>Selesaikan</strong> untuk finalisasi.</p>
+                <p className="text-xs text-gray-500">Click <strong>Save</strong> to save as a draft or <strong>Finalize</strong> to complete the grading.</p>
               </li>
             </ul>
           </div>

@@ -36,7 +36,7 @@ export type UserRole = | "teacher" | "mentor" | "parent";
 export const ROLE_META: Record<UserRole, { label: string; basePath: string; color: string }> = {
   teacher: { label: "Teacher", basePath: "/teacher", color: "text-blue-500" },
   mentor:  { label: "Mentor",          basePath: "/mentor",  color: "text-emerald-500" },
-  parent:  { label: "Parent Student",          basePath: "/parent",  color: "text-blue-400" },
+  parent:  { label: "Parent",          basePath: "/parent",  color: "text-blue-400" },
 };
 
 
@@ -47,8 +47,8 @@ export const NAV_CONFIG: Record<UserRole, NavSection[]> = {
       label: "Menu",
       items: [
         { name: "Dashboard",      icon: <GridIcon />,       path: "/teacher" },
-        { name: "Siswa & Penilaian",     icon: <TableIcon />,      path: "/teacher/students" },
-        { name: "Susun Penilaian",     icon: <ListIcon />,      path: "/teacher/rubrics" },
+        { name: "Students & Assessments",     icon: <TableIcon />,      path: "/teacher/students" },
+        { name: "Manage Rubrics",     icon: <ListIcon />,      path: "/teacher/rubrics" },
       ],
     },
   ],
@@ -59,7 +59,7 @@ export const NAV_CONFIG: Record<UserRole, NavSection[]> = {
       items: [
         { name: "Dashboard",      icon: <GridIcon />,       path: "/mentor" },
         { icon: <ListIcon />, name: "Report", path: "/mentor/report" },
-        { name: "Data Siswa",     icon: <TableIcon />,      path: "/mentor/students" },
+        { name: "Students",     icon: <TableIcon />,      path: "/mentor/students" },
         // { name: "Profil",         icon: <UserCircleIcon />, path: "/mentor/profile" },
       ],
     },

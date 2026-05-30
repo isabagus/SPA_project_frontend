@@ -42,7 +42,7 @@ export default function MentorDashboard() {
 
   const stats = [
     { 
-      label: "Kelas Bimbingan", 
+      label: "Assigned Class", 
       value: currentClass, 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,8 +53,8 @@ export default function MentorDashboard() {
       bg: "bg-brand-50"
     },
     { 
-      label: "Total Siswa", 
-      value: loadingStudents ? "..." : `${students.length} Siswa`, 
+      label: "Total Students", 
+      value: loadingStudents ? "..." : `${students.length} Students`, 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -64,7 +64,7 @@ export default function MentorDashboard() {
       bg: "bg-blue-50"
     },
     { 
-      label: "Tahun Ajaran", 
+      label: "Academic Year", 
       value: userData?.academic_year || "...", 
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,10 +86,10 @@ export default function MentorDashboard() {
         
         {/* Quick Actions Card */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
-          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Aksi Mentor</h3>
+          <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Mentor Actions</h3>
           <div className="flex flex-col gap-2">
             <Link href="/mentor/students" className="flex items-center justify-between p-3 rounded-xl bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 font-bold text-sm hover:bg-brand-100 dark:hover:bg-brand-900/40 transition-colors">
-              Input Catatan Mentor
+              Input Mentor Notes
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
             </Link>
           </div>
@@ -114,20 +114,20 @@ export default function MentorDashboard() {
       {/* Main Content: Student List */}
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Daftar Siswa Kelas {currentClass}</h2>
-          <Link href="/mentor/students" className="text-sm font-bold text-brand-600 hover:underline">Lihat Semua</Link>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Student List for Class {currentClass}</h2>
+          <Link href="/mentor/students" className="text-sm font-bold text-brand-600 hover:underline">View All</Link>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
           {loadingStudents ? (
-            <div className="p-12 text-center text-gray-400 italic">Memuat data siswa...</div>
+            <div className="p-12 text-center text-gray-400 italic">Loading student data...</div>
           ) : students.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-gray-900/50">
-                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Nama Siswa</th>
-                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Aksi</th>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Student Name</th>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -146,7 +146,7 @@ export default function MentorDashboard() {
                           href={`/mentor/students?student_id=${student.student_id}`}
                           className="inline-flex items-center justify-center px-4 py-1.5 bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 font-bold text-xs rounded-lg hover:bg-brand-100 transition-colors"
                         >
-                          Beri Catatan
+                          Add Note
                         </Link>
                       </td>
                     </tr>
@@ -156,13 +156,13 @@ export default function MentorDashboard() {
               {students.length > 10 && (
                 <div className="p-4 text-center border-t border-gray-100 dark:border-gray-700">
                    <Link href="/mentor/students" className="text-xs font-bold text-gray-500 hover:text-brand-600 transition-colors">
-                      Lihat {students.length - 10} siswa lainnya &rarr;
+                      View {students.length - 10} other students &rarr;
                    </Link>
                 </div>
               )}
             </div>
           ) : (
-            <div className="p-12 text-center text-gray-400 italic">Belum ada siswa di kelas ini.</div>
+            <div className="p-12 text-center text-gray-400 italic">No students found in this class.</div>
           )}
         </div>
       </div>

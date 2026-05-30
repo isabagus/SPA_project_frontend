@@ -61,15 +61,15 @@ export default function MentorStudentReportPage() {
               <ArrowLeft className="w-6 h-6" />
             </button>
             <div>
-              <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Akademik Siswa</h1>
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Monitoring Nilai & Pencapaian Kurikulum</p>
+              <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Student Academic Progress</h1>
+              <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">Grade Monitoring & Curriculum Achievement</p>
             </div>
           </div>
 
           <div className="bg-emerald-500 text-white px-8 py-4 rounded-3xl shadow-xl shadow-emerald-500/20 flex items-center gap-4">
             <Award className="w-6 h-6" />
             <div className="text-right">
-              <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Rata-rata Kelas</p>
+              <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Academic Average</p>
               <p className="text-xl font-black">
                 {(reports.reduce((acc, curr) => acc + Number(curr.average_value), 0) / (reports.length || 1)).toFixed(1)}
               </p>
@@ -114,7 +114,7 @@ export default function MentorStudentReportPage() {
                 </div>
 
                 <div className="mt-6 flex items-center justify-between pt-4 border-t border-gray-50 dark:border-gray-700/50">
-                  <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.2em]">Detail Rubrik</span>
+                  <span className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.2em]">Rubric Details</span>
                   <ChevronRight className="w-4 h-4 text-gray-300 group-hover:translate-x-2 transition-transform" />
                 </div>
               </div>
@@ -128,8 +128,8 @@ export default function MentorStudentReportPage() {
              <div className="bg-gray-50 dark:bg-gray-900 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Star className="w-10 h-10 text-gray-300" />
              </div>
-             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Belum Ada Data Penilaian</h2>
-             <p className="text-gray-400 max-w-xs mx-auto">Siswa ini belum memiliki data akademik di periode tahun ajaran ini.</p>
+             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Assessment Data Available</h2>
+             <p className="text-gray-400 max-w-xs mx-auto">This student does not have academic data for this academic year period.</p>
           </div>
         )}
       </div>
@@ -177,7 +177,7 @@ export default function MentorStudentReportPage() {
                               {idx + 1}
                            </div>
                            <h4 className="font-bold text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors">
-                              {detail.rubric?.rubric_name || 'Kriteria Penilaian'}
+                              {detail.rubric?.rubric_name || 'Assessment Criteria'}
                            </h4>
                         </div>
                         <div className="flex items-center gap-2 px-6 py-2 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
@@ -187,14 +187,14 @@ export default function MentorStudentReportPage() {
                       </div>
                       <div className="p-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
                         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed italic">
-                          {detail.criteria?.criteria_name || 'Tidak ada deskripsi kriteria.'}
+                          {detail.criteria?.criteria_name || 'No criteria description available.'}
                         </p>
                       </div>
                     </div>
                   ))
                 ) : (
                   <div className="text-center py-10">
-                    <p className="text-gray-400 font-medium">Belum ada rubrik penilaian terperinci untuk mata pelajaran ini.</p>
+                    <p className="text-gray-400 font-medium">No detailed assessment rubrics available for this subject.</p>
                   </div>
                 )}
               </div>
@@ -206,7 +206,7 @@ export default function MentorStudentReportPage() {
                 onClick={() => setSelectedReport(null)}
                 className="px-8 py-4 bg-gray-900 dark:bg-emerald-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform"
               >
-                Tutup Monitor
+                Close
               </button>
             </div>
           </div>

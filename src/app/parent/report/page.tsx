@@ -34,8 +34,8 @@ function ReportPageContent() {
   if (!studentId) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-500">Silakan pilih anak terlebih dahulu dari Dashboard.</p>
-        <Link href="/parent" className="text-brand-600 font-bold mt-4 inline-block"> Kembali ke Dashboard</Link>
+        <p className="text-gray-500">Please select a student from the Dashboard first.</p>
+        <Link href="/parent" className="text-brand-600 font-bold mt-4 inline-block"> Back to Dashboard</Link>
       </div>
     );
   }
@@ -45,9 +45,9 @@ function ReportPageContent() {
       {/* ── Header ────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm transition-colors">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 dark:text-white">Laporan Nilai Lengkap</h1>
+          <h1 className="text-2xl font-black text-gray-900 dark:text-white">Full Grade Report</h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-            Siswa: <span className="font-bold text-brand-600">{selectedChild?.name_student || '...'}</span> ({selectedChild?.level_class})
+            Student: <span className="font-bold text-brand-600">{selectedChild?.name_student || '...'}</span> ({selectedChild?.level_class})
           </p>
         </div>
 
@@ -55,18 +55,18 @@ function ReportPageContent() {
           href="/parent"
           className="px-4 py-2 text-sm font-bold text-gray-500 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
         >
-           Kembali ke Dashboard
+           Back to Dashboard
         </Link>
       </div>
 
       {/* ── Content ─────────────────────────────────────── */}
       {isLoading ? (
-        <div className="text-center py-10 text-gray-500">Memuat data raport...</div>
+        <div className="text-center py-10 text-gray-500">Loading report card data...</div>
       ) : !reports || reports.length === 0 ? (
         <div className="flex flex-col items-center justify-center min-h-[300px] gap-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm transition-colors">
           <div className="text-4xl">📭</div>
           <p className="text-gray-500 dark:text-gray-400 font-medium text-center">
-            Belum ada nilai yang diinput oleh guru untuk periode ini.
+            No grades have been entered by teachers for this period.
           </p>
         </div>
       ) : (
@@ -77,10 +77,10 @@ function ReportPageContent() {
               <thead>
                 <tr className="bg-gray-50 dark:bg-gray-900/50">
                   <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 w-16 text-center">No</th>
-                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500">Mata Pelajaran</th>
-                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Nilai Rata-rata</th>
-                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Catatan Mentor</th>
-                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Aksi</th>
+                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500">Subject</th>
+                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Average Score</th>
+                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Mentor Notes</th>
+                  <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -103,7 +103,7 @@ function ReportPageContent() {
                         href={`/parent/report/detail?report_id=${report.report_id}`}
                         className="inline-block px-4 py-1.5 rounded-lg text-[10px] font-bold bg-brand-600 text-white shadow-sm hover:bg-brand-700 transition-all"
                       >
-                        Detail
+                        Details
                       </Link>
                     </td>
                   </tr>
@@ -124,7 +124,7 @@ function ReportPageContent() {
                         {report.subject?.category_subject}
                       </h3>
                       <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider truncate max-w-[150px]">
-                        {report.mentor_note || 'Tanpa catatan mentor'}
+                        {report.mentor_note || 'No mentor comments'}
                       </p>
                     </div>
                   </div>
@@ -137,7 +137,7 @@ function ReportPageContent() {
                   href={`/parent/report/detail?report_id=${report.report_id}`}
                   className="block w-full text-center py-2.5 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-md active:scale-[0.98] transition-all"
                 >
-                  View Detail
+                  View Details
                 </Link>
               </div>
             ))}

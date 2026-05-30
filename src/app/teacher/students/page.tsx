@@ -131,16 +131,16 @@ export default function TeacherStudentsPage() {
       {/* Header Halaman */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-800 dark:text-gray-100 uppercase tracking-tight">Manajemen Murid</h1>
+          <h1 className="text-2xl font-black text-gray-800 dark:text-gray-100 uppercase tracking-tight">Student Management</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-            Melihat daftar siswa pada <span className="font-bold text-indigo-600 dark:text-indigo-400">{currentSubject?.category_subject || '...'}</span>
+            Viewing student list for <span className="font-bold text-indigo-600 dark:text-indigo-400">{currentSubject?.category_subject || '...'}</span>
           </p>
         </div>
 
         {/* Filter Group */}
         <div className="flex flex-wrap gap-3 w-full md:w-auto">
             <div className="flex flex-col gap-1 min-w-[200px]">
-                <label className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 ml-1">Mata Pelajaran</label>
+                <label className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 ml-1">Subject</label>
                 <select 
                 className="w-full text-xs font-bold border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition-all" 
                 value={selectedSubjectKey} 
@@ -166,10 +166,10 @@ export default function TeacherStudentsPage() {
             </div>
 
             <div className="flex flex-col gap-1 min-w-[200px]">
-                <label className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 ml-1">Cari Murid</label>
+                <label className="text-[10px] font-black uppercase text-gray-400 dark:text-gray-500 ml-1">Search Student</label>
                 <input 
                     type="text" 
-                    placeholder="NIS / Nama..." 
+                    placeholder="NIS / Name..." 
                     className="w-full text-xs font-bold border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -191,11 +191,11 @@ export default function TeacherStudentsPage() {
             <thead>
               <tr className="bg-gray-50/50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-700">
                 <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500">NIS</th>
-                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500">Nama Siswa</th>
+                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500">Student Name</th>
                 <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500">Gender</th>
-                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500 text-center">Status Nilai</th>
-                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500 text-center">Rata-rata</th>
-                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500 text-right">Aksi</th>
+                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500 text-center">Grading Status</th>
+                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500 text-center">Average</th>
+                <th className="px-8 py-5 text-[10px] uppercase font-black tracking-widest text-gray-400 dark:text-gray-500 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
@@ -208,7 +208,7 @@ export default function TeacherStudentsPage() {
                     <div className="flex flex-col items-center gap-2">
                       {student.status_score === 'completed' ? (
                         <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50">
-                          Selesai
+                          Completed
                         </span>
                       ) : student.status_score === 'draft' ? (
                         <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/50">
@@ -216,7 +216,7 @@ export default function TeacherStudentsPage() {
                         </span>
                       ) : (
                         <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-gray-700">
-                          Belum Nilai
+                          Not Graded
                         </span>
                       )}
                       
@@ -230,7 +230,7 @@ export default function TeacherStudentsPage() {
                         </div>
                       )}
                       <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">
-                        {student.status_score === 'none' ? '0% Terisi' : `${student.completion}% Terisi`}
+                        {student.status_score === 'none' ? '0% Completed' : `${student.completion}% Completed`}
                       </span>
                     </div>
                   </td>
@@ -246,14 +246,14 @@ export default function TeacherStudentsPage() {
                         : "bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
                       }`}
                     >
-                      {student.status_score === 'none' ? "Input Nilai" : "Lanjutkan Nilai"}
+                      {student.status_score === 'none' ? "Input Grades" : "Continue Grading"}
                     </button>
                   </td>
                 </tr>
               )) : (
                 <tr>
                   <td colSpan={6} className="px-8 py-20 text-center text-sm text-gray-500 dark:text-gray-400 italic">
-                    {isLoadingStudents ? "Sedang memuat data..." : "Tidak ada data siswa yang ditemukan."}
+                    {isLoadingStudents ? "Loading data..." : "No student data found."}
                   </td>
                 </tr>
               )}

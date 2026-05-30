@@ -13,7 +13,7 @@ function ScoreBadge({ score }: { score: string }) {
   const textColor = val >= 2.5 ? "text-emerald-600 dark:text-emerald-500" : val >= 2.0 ? "text-blue-600 dark:text-blue-500" : "text-amber-600 dark:text-amber-500";
   return (
     <span className={`text-sm font-black tabular-nums ${textColor}`}>
-      {val.toFixed(2).replace(".", ",")}
+      {val.toFixed(2)}
     </span>
   );
 }
@@ -35,13 +35,13 @@ export default function SubjectDetailPage() {
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <div className="text-5xl">⚠️</div>
         <p className="text-gray-500 dark:text-gray-400 font-semibold">
-          Data penilaian tidak ditemukan.
+          Assessment data not found.
         </p>
         <Link
           href={`/parent/report/${termSlug}`}
           className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
         >
-          ← Kembali ke Daftar Nilai
+          ← Back to Grade List
         </Link>
       </div>
     );
@@ -66,16 +66,16 @@ export default function SubjectDetailPage() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 bg-white dark:bg-white/[0.03] p-6 rounded-3xl border border-gray-200 dark:border-white/10 backdrop-blur-md">
           <div className="space-y-1 text-center sm:text-left">
             <nav className="flex items-center justify-center sm:justify-start gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
-              <Link href={`/parent/report/${termSlug}`} className="hover:text-indigo-400 transition-colors">Laporan Nilai</Link>
+              <Link href={`/parent/report/${termSlug}`} className="hover:text-indigo-400 transition-colors">Grade Report</Link>
               <span>/</span>
-              <span className="text-indigo-500">Detail Penilaian</span>
+              <span className="text-indigo-500">Assessment Details</span>
             </nav>
             <h1 className="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-3 justify-center sm:justify-start">
               <span className="bg-indigo-500 w-2 h-8 rounded-full" />
               {currentSubject.domain || "GENERAL DOMAIN"}
             </h1>
             <p className="text-gray-500 dark:text-gray-400 text-xs font-medium">
-              Laporan Penilaian Sub-materi Siswa — {report.term} {report.academicYear}
+              Student Sub-topic Assessment Report — {report.term} {report.academicYear}
             </p>
           </div>
 
@@ -122,7 +122,7 @@ export default function SubjectDetailPage() {
             </div> */}
             <div>
               <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest">Average Score</p>
-              <p className="text-sm font-black text-emerald-500">{domainAvg.replace(".", ",")}</p>
+              <p className="text-sm font-black text-emerald-500">{domainAvg}</p>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ export default function SubjectDetailPage() {
                           {c.description}
                         </td>
                         <td className="py-1 text-right border-b border-gray-100">
-                          <span className="inline-block border border-black px-1 font-bold">{parseFloat(c.score).toFixed(2).replace(".", ",")}</span>
+                          <span className="inline-block border border-black px-1 font-bold">{parseFloat(c.score).toFixed(2)}</span>
                         </td>
                       </tr>
                     ))}
@@ -213,7 +213,7 @@ export default function SubjectDetailPage() {
           <div className="pt-6 border-t-2 border-black mt-8">
             <div className="flex justify-between items-center py-2 px-4 bg-gray-100">
               <span className="text-sm font-black uppercase">Average</span>
-              <span className="font-black text-lg">{parseFloat(domainAvg).toFixed(2).replace(".", ",")}</span>
+              <span className="font-black text-lg">{parseFloat(domainAvg).toFixed(2)}</span>
             </div>
 
             <div className="mt-10 grid grid-cols-2 gap-10">

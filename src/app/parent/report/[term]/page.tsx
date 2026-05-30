@@ -20,13 +20,13 @@ function ReportDetailContent() {
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <div className="text-5xl">📭</div>
         <p className="text-gray-500 dark:text-gray-400 font-semibold">
-          Raport tidak ditemukan.
+          Report card not found.
         </p>
         <Link
           href="/parent/report"
           className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
         >
-          ← Kembali ke Daftar Raport
+          ← Back to Report Card List
         </Link>
       </div>
     );
@@ -41,7 +41,7 @@ function ReportDetailContent() {
             href="/parent/report"
             className="hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors"
           >
-            Laporan Nilai
+            Grade Report
           </Link>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="9 18 15 12 9 6" />
@@ -60,7 +60,7 @@ function ReportDetailContent() {
               <tr className="bg-gray-50 dark:bg-gray-800/50">
                 <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 w-16 text-center">No</th>
                 <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500">Subject</th>
-                <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Nilai</th>
+                <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Grade</th>
                 <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-gray-500 text-center">Action</th>
               </tr>
             </thead>
@@ -88,7 +88,7 @@ function ReportDetailContent() {
                       href={`/parent/report/${slug}/${subjectToSlug(subj.name)}`}
                       className="inline-block px-4 py-1.5 rounded-lg text-[10px] font-bold bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition-all"
                     >
-                      Detail
+                      Details
                     </Link>
                   </td>
                 </tr>
@@ -103,7 +103,7 @@ function ReportDetailContent() {
 
 export default function ReportDetailPage() {
   return (
-    <Suspense fallback={<div className="p-10 text-center font-bold">Loading Raport...</div>}>
+    <Suspense fallback={<div className="p-10 text-center font-bold">Loading Report...</div>}>
       <ReportDetailContent />
     </Suspense>
   );

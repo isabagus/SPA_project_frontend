@@ -68,10 +68,10 @@ export default function MentorStudentsPage() {
             <div className="bg-emerald-500/10 p-3 rounded-2xl">
                 <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 15.292m0-15.292a4 4 0 110 15.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
             </div>
-            <div>
-                <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Evaluasi Mentor</h1>
-                <p className="text-gray-500 dark:text-gray-400 text-sm font-medium italic">Pembimbingan Holistik (Affective Domain)</p>
-            </div>
+             <div>
+                 <h1 className="text-3xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Mentor Evaluation</h1>
+                 <p className="text-gray-500 dark:text-gray-400 text-sm font-medium italic">Holistic Mentoring (Affective Domain)</p>
+             </div>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-3">
@@ -85,13 +85,13 @@ export default function MentorStudentsPage() {
             ))}
           </select>
           <div className="relative w-full sm:w-64">
-            <input 
-                type="text" 
-                placeholder="Cari Siswa..." 
-                className="w-full px-5 py-3 pl-12 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl text-sm focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all dark:text-white font-medium"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
+             <input 
+                 type="text" 
+                 placeholder="Search Student..." 
+                 className="w-full px-5 py-3 pl-12 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl text-sm focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all dark:text-white font-medium"
+                 value={searchTerm}
+                 onChange={(e) => setSearchTerm(e.target.value)}
+             />
             <svg className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </div>
         </div>
@@ -128,7 +128,7 @@ export default function MentorStudentsPage() {
             >
               <div className="absolute top-0 right-0 p-3">
                 <span className={`px-3 py-1 rounded-bl-2xl text-[10px] font-black uppercase tracking-widest ${student.status_note === 'completed' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}>
-                    {student.status_note === 'completed' ? 'Terisi' : 'Kosong'}
+                    {student.status_note === 'completed' ? 'Completed' : 'Empty'}
                 </span>
               </div>
 
@@ -145,7 +145,7 @@ export default function MentorStudentsPage() {
               <div className="space-y-4">
                 <div className="p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl min-h-[80px] border border-transparent group-hover:border-emerald-500/10 transition-all">
                   <p className="text-xs text-gray-500 dark:text-gray-400 font-medium italic line-clamp-3 leading-relaxed">
-                    {student.mentor_note || "Belum ada deskripsi evaluasi..."}
+                    {student.mentor_note || "No evaluation comments yet..."}
                   </p>
                 </div>
 
@@ -154,13 +154,13 @@ export default function MentorStudentsPage() {
                     onClick={() => openEvaluationModal(student.student_id)}
                     className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-wider shadow-lg shadow-emerald-500/10 hover:scale-[1.02] active:scale-95 transition-all"
                   >
-                    Edit Evaluasi
+                    Edit Evaluation
                   </button>
                   <Link 
                     href={`/mentor/students/${student.student_id}/report`}
                     className="flex-1 bg-gray-900 dark:bg-gray-700 hover:bg-gray-800 text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-wider shadow-lg shadow-gray-200 dark:shadow-none hover:scale-[1.02] active:scale-95 transition-all text-center flex items-center justify-center"
                   >
-                    Lihat Raport
+                    View Report
                   </Link>
                 </div>
               </div>

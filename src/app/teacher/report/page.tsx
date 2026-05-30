@@ -87,7 +87,7 @@ function TeacherReportContent() {
       }, 2000);
     },
     onError: (err: any) => {
-      setShowToast({ msg: "Gagal menyimpan. Cek kembali format angka (1.00 - 3.00)", type: 'error' });
+      setShowToast({ msg: "Failed to save. Please check the score format (1.00 - 3.00)", type: 'error' });
     }
   });
 
@@ -102,9 +102,9 @@ function TeacherReportContent() {
     const emptyFields = inputScores.filter(i => !i.score || i.score === '');
     
     if (emptyFields.length > 0) {
-      setShowToast({ msg: `Ada ${emptyFields.length} kriteria belum terisi. Status akan menjadi DRAFT.`, type: 'warn' });
+      setShowToast({ msg: `${emptyFields.length} criteria remain unfilled. Status will be saved as DRAFT.`, type: 'warn' });
     } else {
-      setShowToast({ msg: "Semua terisi! Status akan menjadi SELESAI.", type: 'success' });
+      setShowToast({ msg: "All fields completed! Status will be saved as COMPLETED.", type: 'success' });
     }
 
     const payload = {
@@ -121,7 +121,7 @@ function TeacherReportContent() {
     return (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2);
   }, [inputScores]);
 
-  if (isLoading || !studentId) return <div className="p-20 text-center text-indigo-600 font-bold animate-pulse italic">Menyiapkan Lembar Penilaian...</div>;
+  if (isLoading || !studentId) return <div className="p-20 text-center text-indigo-600 font-bold animate-pulse italic">Preparing Assessment Sheet...</div>;
 
   return (
     <div className="max-w-6xl mx-auto p-4 sm:p-6 space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100 transition-colors relative">
@@ -132,7 +132,7 @@ function TeacherReportContent() {
           <div className="flex items-center gap-4">
             <span className="text-3xl">ℹ️</span>
             <div>
-              <p className="text-amber-900 dark:text-amber-200 font-black uppercase text-xs tracking-widest mb-1">Mode Lihat Saja (Read-Only)</p>
+              <p className="text-amber-900 dark:text-amber-200 font-black uppercase text-xs tracking-widest mb-1">Read-Only Mode</p>
               <p className="text-amber-800 dark:text-amber-300 text-sm font-medium">{scoreForm.read_only_reason}</p>
             </div>
           </div>
@@ -155,7 +155,7 @@ function TeacherReportContent() {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Lembar Penilaian</h1>
+          <h1 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Assessment Sheet</h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">{profile?.name || "Teacher"}</p>
         </div>
         <div className="flex gap-4">
@@ -163,7 +163,7 @@ function TeacherReportContent() {
             onClick={() => router.replace(`/teacher/students?subject=${subjectId}`)} 
             className="text-sm font-bold bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 px-4 py-2 rounded-xl hover:bg-gray-50 transition"
           >
-            ← Kembali ke Daftar
+            ← Back to List
           </button>
         </div>
       </div>
@@ -187,7 +187,7 @@ function TeacherReportContent() {
                     </div>
                 </div>
                 <div className="md:text-right">
-                    <p className="text-indigo-300 text-[10px] font-bold uppercase mb-1 tracking-widest">Rata-rata Sementara</p>
+                    <p className="text-indigo-300 text-[10px] font-bold uppercase mb-1 tracking-widest">Current Average</p>
                     <p className="text-4xl font-black">{currentFormAverage}</p>
                 </div>
               </div>
@@ -202,9 +202,9 @@ function TeacherReportContent() {
                                 <h3 className="font-black text-indigo-900 dark:text-indigo-300 uppercase tracking-widest text-xs">{rubric.rubric_name}</h3>
                             </div>
                             {rubric.is_mine ? (
-                                <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800">Milik Saya</span>
+                                <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-full border border-indigo-100 dark:border-indigo-800">My Rubric</span>
                             ) : (
-                                <span className="text-[10px] font-black text-amber-500 uppercase tracking-widest bg-amber-50 dark:bg-amber-900/30 px-3 py-1 rounded-full border border-amber-100 dark:border-amber-800">Penilaian Rekan</span>
+                                <span className="text-[10px] font-black text-amber-500 uppercase tracking-widest bg-amber-50 dark:bg-amber-900/30 px-3 py-1 rounded-full border border-amber-100 dark:border-amber-800">Co-Teacher's Rubric</span>
                             )}
                         </div>
 
@@ -224,13 +224,13 @@ function TeacherReportContent() {
                                                 disabled={!c.is_mine}
                                                 value={currentInput?.description_subject || ""}
                                                 onChange={(e) => handleScoreChange(c.criteria_id, 'description_subject', e.target.value)}
-                                                placeholder={c.is_mine ? "Komentar untuk kriteria ini..." : "Belum ada komentar dari rekan."}
+                                                placeholder={c.is_mine ? "Comment for this criteria..." : "No comments from co-teacher yet."}
                                                 className={`w-full text-xs font-medium bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none ${!c.is_mine ? 'opacity-50 cursor-not-allowed italic text-gray-400' : 'text-gray-600 dark:text-gray-400'}`}
                                                 rows={2}
                                             />
                                         </div>
                                         <div className="flex flex-col items-center justify-center min-w-[120px] gap-2">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase">Skor (1-3)</label>
+                                            <label className="text-[10px] font-black text-gray-400 uppercase">Score (1-3)</label>
                                             <input 
                                                 disabled={!c.is_mine}
                                                 type="number"
@@ -257,7 +257,7 @@ function TeacherReportContent() {
                 </div>
                 <div className="h-10 w-[1px] bg-gray-200 dark:bg-gray-700 hidden md:block"></div>
                 <div className="hidden md:block">
-                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Keterangan</p>
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Expectation Level</p>
                   <p className="text-sm font-bold text-gray-700 dark:text-gray-300 italic">{getLevelLabel(currentFormAverage).label}</p>
                 </div>
               </div>
@@ -267,7 +267,7 @@ function TeacherReportContent() {
                   disabled={scoreMutation.isPending}
                   className={`w-full md:w-auto px-12 py-4 rounded-2xl font-black text-sm tracking-widest transition-all shadow-xl dark:shadow-none active:scale-95 ${saved ? 'bg-emerald-500 text-white' : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-200'} ${scoreMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                  {scoreMutation.isPending ? "MEMPROSES..." : (saved ? "✓ TERSIMPAN" : "KONFIRMASI & SIMPAN NILAI")}
+                  {scoreMutation.isPending ? "PROCESSING..." : (saved ? "✓ SAVED" : "CONFIRM & SAVE GRADES")}
                 </button>
               )}
             </div>

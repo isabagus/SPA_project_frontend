@@ -18,10 +18,10 @@ export default function ParentStudentCoverPage() {
       {/* ── Header Section ─────────────────────────────────────── */}
       <div className="text-center mb-12 max-w-2xl">
         <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">
-          Pilih Profil <span className="text-brand-600">Siswa</span>
+          Select <span className="text-brand-600">Student</span> Profile
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed">
-          Silakan pilih profil anak Anda untuk melihat laporan capaian akademik dan evaluasi guru secara mendalam.
+          Please select your child's profile to view their academic achievements and in-depth teacher evaluations.
         </p>
       </div>
 
@@ -74,7 +74,7 @@ export default function ParentStudentCoverPage() {
                 {/* Button Action Overlay */}
                 <div className="mt-8 pt-6 border-t border-gray-50 dark:border-gray-700">
                   <span className="flex items-center justify-between text-sm font-black text-brand-600 group-hover:translate-x-2 transition-transform">
-                    Buka Raport
+                    Open Report Card
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
@@ -93,7 +93,7 @@ export default function ParentStudentCoverPage() {
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
         </svg>
-        Data terenkripsi dan aman
+        Data is encrypted and secure
       </div>
     </div>
   );

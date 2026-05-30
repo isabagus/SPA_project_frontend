@@ -60,7 +60,7 @@ export default function AuthPage() {
           /SQLSTATE|mysql|database|connection|query|refused|driver|pdo/i.test(rawMessage);
 
         if (isSensitive) {
-          setError('Terjadi kendala teknis pada server. Silakan hubungi administrator.');
+          setError('A technical error occurred on the server. Please contact your administrator.');
         } else {
           setError(rawMessage || 'Login failed. Please check your credentials.');
         }
@@ -78,7 +78,7 @@ export default function AuthPage() {
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-900">E-Report</h1>
-          <p className="mt-2 text-sm text-gray-600">Singapore School Piaget Academic</p>
+          <p className="mt-2 text-sm text-gray-600">Singapore Piaget Academy</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
