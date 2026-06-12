@@ -48,7 +48,6 @@ export const NAV_CONFIG: Record<UserRole, NavSection[]> = {
       items: [
         { name: "Dashboard",      icon: <GridIcon />,       path: "/teacher" },
         { name: "Students & Assessments",     icon: <TableIcon />,      path: "/teacher/students" },
-        { name: "Manage Rubrics",     icon: <ListIcon />,      path: "/teacher/rubrics" },
       ],
     },
   ],
@@ -58,6 +57,7 @@ export const NAV_CONFIG: Record<UserRole, NavSection[]> = {
       label: "Menu",
       items: [
         { name: "Dashboard",      icon: <GridIcon />,       path: "/mentor" },
+        { name: "Manage Rubrics",     icon: <ListIcon />,      path: "/mentor/rubrics" },
         { icon: <ListIcon />, name: "Report", path: "/mentor/report" },
         { name: "Students",     icon: <TableIcon />,      path: "/mentor/students" },
         // { name: "Profil",         icon: <UserCircleIcon />, path: "/mentor/profile" },

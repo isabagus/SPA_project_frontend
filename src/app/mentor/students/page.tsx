@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import api from '@/lib/axios';
 import Link from 'next/link';
@@ -29,13 +29,16 @@ export default function MentorStudentsPage() {
     queryKey: ['mentor-classes'],
     queryFn: async () => {
       const res = await api.get('/mentor/classes');
-      const data = res.data.data;
-      if (data.length > 0 && !activeLevel) {
-        setActiveLevel(data[0].level_class);
-      }
-      return data as MentorClass[];
+      return res.data.data as MentorClass[];
     }
   });
+
+  // Set default active level
+  useEffect(() => {
+    if (mentorClasses && mentorClasses.length > 0 && !activeLevel) {
+      setActiveLevel(mentorClasses[0].level_class);
+    }
+  }, [mentorClasses, activeLevel]);
 
   // 2. Fetch Daftar Siswa di Kelas Terpilih
   const { data: studentData, isLoading } = useQuery({

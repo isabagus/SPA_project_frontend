@@ -115,6 +115,25 @@ function TeacherReportContent() {
     scoreMutation.mutate(payload);
   };
 
+  const handleDownloadPdf = async () => {
+    if (!scoreForm?.report_id) return;
+    try {
+      const response = await api.get(`/reports/${scoreForm.report_id}/export`, {
+        responseType: 'blob',
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Report-${scoreForm.student.name_student}-${scoreForm.subject.category_subject}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Failed to download PDF. Please try again.');
+    }
+  };
+
   const currentFormAverage = useMemo(() => {
     const vals = inputScores.map(i => parseFloat(i.score || "0")).filter(v => v > 0);
     if (vals.length === 0) return "—";
@@ -158,7 +177,20 @@ function TeacherReportContent() {
           <h1 className="text-2xl font-black text-gray-900 dark:text-white uppercase tracking-tight">Assessment Sheet</h1>
           <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">{profile?.name || "Teacher"}</p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-3">
+          {scoreForm?.report_id && (
+            <button 
+              onClick={handleDownloadPdf}
+              className="text-sm font-bold bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition flex items-center gap-2"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download PDF
+            </button>
+          )}
           <button 
             onClick={() => router.replace(`/teacher/students?subject=${subjectId}`)} 
             className="text-sm font-bold bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 px-4 py-2 rounded-xl hover:bg-gray-50 transition"

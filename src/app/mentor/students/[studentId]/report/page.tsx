@@ -39,6 +39,28 @@ export default function MentorStudentReportPage() {
     setSelectedReport(report);
   };
 
+  const handleDownloadPdf = async (reportId: number, studentName: string, subjectName: string) => {
+    if (!reportId || reportId === 0) {
+      alert("No report data available to export yet. Please enter scores first.");
+      return;
+    }
+    try {
+      const response = await api.get(`/reports/${reportId}/export`, {
+        responseType: 'blob',
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Report-${studentName}-${subjectName}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Failed to download PDF. Please try again.');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -201,7 +223,35 @@ export default function MentorStudentReportPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-8 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/50 flex justify-end">
+            <div className="p-8 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/50 flex justify-between items-center">
+              {selectedReport.report_id && selectedReport.report_id !== 0 ? (
+                <div className="flex gap-2">
+                  <a 
+                    href={`/print/report/${selectedReport.report_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-4 bg-emerald-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform flex items-center gap-2"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                      <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    Print Report
+                  </a>
+                  <button 
+                    onClick={() => handleDownloadPdf(selectedReport.report_id, (selectedReport as any).student?.name_student || 'Student', selectedReport.subject.category_subject)}
+                    className="px-6 py-4 bg-indigo-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform flex items-center gap-2"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF
+                  </button>
+                </div>
+              ) : <div />}
               <button 
                 onClick={() => setSelectedReport(null)}
                 className="px-8 py-4 bg-gray-900 dark:bg-emerald-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform"

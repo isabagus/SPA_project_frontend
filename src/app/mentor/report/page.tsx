@@ -74,13 +74,16 @@ function MentorReportContent() {
     queryKey: ['mentor-classes-reports'],
     queryFn: async () => {
       const res = await api.get('/mentor/classes');
-      const data = res.data.data;
-      if (data.length > 0 && !activeLevel) {
-        setActiveLevel(data[0].level_class);
-      }
-      return data as MentorClass[];
+      return res.data.data as MentorClass[];
     }
   });
+
+  // Set default active level
+  useEffect(() => {
+    if (mentorClasses && mentorClasses.length > 0 && !activeLevel) {
+      setActiveLevel(mentorClasses[0].level_class);
+    }
+  }, [mentorClasses, activeLevel]);
 
   // 2. Fetch Students
   const { data: studentData, isLoading: isStudentsLoading } = useQuery({
@@ -187,6 +190,28 @@ function MentorReportContent() {
       subjectId,
       criteriaId
     });
+  };
+
+  const handleDownloadPdf = async (reportId: number, studentName: string, subjectName: string) => {
+    if (!reportId || reportId === 0) {
+      alert("No report data available to export yet. Please enter scores first.");
+      return;
+    }
+    try {
+      const response = await api.get(`/reports/${reportId}/export`, {
+        responseType: 'blob',
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Report-${studentName}-${subjectName}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Download failed:', error);
+      alert('Failed to download PDF. Please try again.');
+    }
   };
 
   const toggleAccordion = (rubricId: number) => {
@@ -466,9 +491,39 @@ function MentorReportContent() {
                       <p className="font-bold text-[10px] uppercase tracking-widest opacity-80 italic">Mentor Access: Qualitative Feedback Editing</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Subject Average</p>
-                    <p className="text-4xl font-black">{Number(selectedReport.average_value).toFixed(2)}</p>
+                  <div className="text-right flex items-center gap-6">
+                    {selectedReport.report_id && selectedReport.report_id !== 0 && (
+                      <div className="flex gap-2">
+                        <a 
+                          href={`/print/report/${selectedReport.report_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-5 py-3 bg-emerald-700 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-md"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                          </svg>
+                          Print Report
+                        </a>
+                        <button 
+                          onClick={() => handleDownloadPdf(selectedReport.report_id, selectedStudent?.name_student || 'Student', selectedReport.subject.category_subject)}
+                          className="flex items-center gap-2 px-5 py-3 bg-white text-emerald-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-md"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                          </svg>
+                          Download PDF
+                        </button>
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Subject Average</p>
+                      <p className="text-4xl font-black">{Number(selectedReport.average_value).toFixed(2)}</p>
+                    </div>
                   </div>
                </div>
 
@@ -493,7 +548,7 @@ function MentorReportContent() {
                         {openAccordions[Number(rubricId)] && (
                           <div className="divide-y divide-gray-50 dark:divide-gray-700">
                              {group.details.map((detail: any, idx: number) => (
-                               <div key={detail.id} className="p-8 flex flex-col md:flex-row gap-8 items-start hover:bg-gray-50/20 dark:hover:bg-gray-900/20 transition-all animate-in fade-in slide-in-from-top-2 duration-300">
+                               <div key={detail.id || `virtual-${detail.criteria_id}-${idx}`} className="p-8 flex flex-col md:flex-row gap-8 items-start hover:bg-gray-50/20 dark:hover:bg-gray-900/20 transition-all animate-in fade-in slide-in-from-top-2 duration-300">
                                   <div className="flex-1 space-y-4 w-full">
                                      <div className="flex justify-between items-center">
                                         <div className="flex items-center gap-3">

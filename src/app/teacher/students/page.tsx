@@ -34,22 +34,25 @@ export default function TeacherStudentsPage() {
     queryKey: ['teacher-subjects'],
     queryFn: async () => {
       const response = await api.get('/teacher/subjects');
-      const data = response.data.data as Subject[];
+      return response.data.data as Subject[];
+    }
+  });
 
-      // Ambil params dari URL jika ada
+  // Handle URL Query Params
+  useEffect(() => {
+    if (subjects.length > 0) {
       const params = new URLSearchParams(window.location.search);
-      const subjectIdParam = params.get('subject');
+      const subjectIdParam = params.get('subject') || params.get('subject_id');
       
-      if (subjectIdParam && data.length > 0) {
-        const found = data.find(s => s.subject_id === parseInt(subjectIdParam));
+      if (subjectIdParam) {
+        const found = subjects.find(s => s.subject_id === parseInt(subjectIdParam));
         if (found) {
           setSelectedSubjectKey(`${found.category_subject}|${found.level_class}`);
           setSelectedTerm(found.term);
         }
       }
-      return data;
     }
-  });
+  }, [subjects]);
 
   // --- Logic Filter Dinamis ---
   // A. Ambil daftar unik "Mapel + Kelas"
@@ -92,8 +95,10 @@ export default function TeacherStudentsPage() {
   }, [subjectOptions, selectedSubjectKey]);
 
   useEffect(() => {
-    if (termOptions.length > 0 && !selectedTerm) {
-      setSelectedTerm(termOptions[0]);
+    if (termOptions.length > 0) {
+      if (!selectedTerm || !termOptions.includes(selectedTerm)) {
+        setSelectedTerm(termOptions[0]);
+      }
     }
   }, [termOptions, selectedTerm]);
 
