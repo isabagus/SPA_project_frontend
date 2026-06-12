@@ -52,7 +52,7 @@ export default function TeacherStudentsPage() {
         }
       }
     }
-  }, [subjects]);
+  }, [subjects, setSelectedSubjectKey, setSelectedTerm]);
 
   // --- Logic Filter Dinamis ---
   // A. Ambil daftar unik "Mapel + Kelas"

@@ -83,7 +83,7 @@ function MentorReportContent() {
     if (mentorClasses && mentorClasses.length > 0 && !activeLevel) {
       setActiveLevel(mentorClasses[0].level_class);
     }
-  }, [mentorClasses, activeLevel]);
+  }, [mentorClasses, activeLevel, setActiveLevel]);
 
   // 2. Fetch Students
   const { data: studentData, isLoading: isStudentsLoading } = useQuery({

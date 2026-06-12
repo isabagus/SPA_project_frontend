@@ -38,7 +38,7 @@ export default function MentorStudentsPage() {
     if (mentorClasses && mentorClasses.length > 0 && !activeLevel) {
       setActiveLevel(mentorClasses[0].level_class);
     }
-  }, [mentorClasses, activeLevel]);
+  }, [mentorClasses, activeLevel, setActiveLevel]);
 
   // 2. Fetch Daftar Siswa di Kelas Terpilih
   const { data: studentData, isLoading } = useQuery({
